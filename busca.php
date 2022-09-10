@@ -3,7 +3,7 @@
 ini_set("display_erros", 1);
 
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
-    $link = mysqli_connect('127.0.0.1', 'root', '171000', 'ccs');
+    $link = mysqli_connect('us-cdbr-east-06.cleardb.net', 'b228bf1cc4db84', '9cbfd6a0', 'heroku_c143fb08873524b');
     $nome = $_GET['nome_produto'];
     $query = "SELECT Description FROM products WHERE Description LIKE '%$nome%'";
     $result = mysqli_query($link, $query);
